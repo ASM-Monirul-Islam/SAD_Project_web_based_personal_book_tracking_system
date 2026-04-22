@@ -1,0 +1,41 @@
+{% extends "base/base.html" %} {% block content %}
+<section class="user_auth_parent section-p0">
+  <form method="post" class="user_auth_child form" id="register_form">
+	{% csrf_token %}
+  {% include "base/alert.html" %}   
+    <h3>Create Account</h3>
+    <label for="email">Email</label>
+    <input
+      type="email"
+      name="email"
+      class="input email"
+      required
+      autocomplete="email"
+    />
+    <label for="pass1">Password</label>
+    <input
+      type="password"
+      name="pass1"
+      class="input pass1"
+      placeholder="Password"
+      required
+      autocomplete="new-password"
+    />
+    <label for="pass2">Confirm your Password</label>
+    <input
+      type="password"
+      name="pass2"
+      class="input pass2"
+      placeholder="Confirm Password"
+      required
+      autocomplete="new-password"
+    />
+    
+    <button type="submit" class="form_btn login_btn button">Register</button>
+    <span
+      ><p>Already Have an Account?</p>
+      <a href="{% url 'login' %}">Sign In</a></span
+    >
+  </form>
+</section>
+{% endblock content %}

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'accounts',
 	'books',
+    'homepage',
+    'userbook',
 ]
 
 MIDDLEWARE = [
@@ -132,4 +134,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'hafizasartanddecor@gmail.com'
-EMAIL_HOST_PASSWORD = '****'
+EMAIL_HOST_PASSWORD = 'mllm unel ugnk xmhq'

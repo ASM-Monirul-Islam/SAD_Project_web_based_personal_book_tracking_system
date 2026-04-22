@@ -1,0 +1,26 @@
+{% load static %}
+<section id="header">
+  <a href="#"><img src="{% static "assets/logo.png" %}" id="logo" /></a>
+  <ul class="navbar" >
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'profile' %}">Profile</a></li>
+    <button class="confirm-action logout"
+    data-url="{% url 'logout' %}"
+    data-method="POST"
+    data-title="Logout"
+    data-message="Are you sure you want to logout?">
+    Logout
+  </button>
+  {% else %}
+  <li><a href="{% url "login" %}">Login</a></li>
+  <li><a href="{% url "register" %}">Register</a></li>
+  {% endif %}
+    <i id="close" class="fa-solid fa-xmark"></i>
+  </ul>
+  <div id="first_nav">
+    {% if user.is_authenticated %}
+    <span><a href="{% url 'home' %}">Home</a></span>
+    {% endif %}
+    <i class="fa-solid fa-circle-user profile"></i>
+  </div>
+</section>

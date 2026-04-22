@@ -1,0 +1,34 @@
+  {% extends "base/base.html" %} {% block content %}
+  <section class="user_auth_parent section-p0">
+    <form method="post" class="user_auth_child form form" id="login_form">
+    {% csrf_token %}
+    {% include "base/alert.html" %}
+      {% comment %} <a href=""><i class="fa-solid fa-xmark close_user_auth"></i></a> {% endcomment %}
+      <h3>Sign In</h3>
+      <label for="username">Username</label>
+      <input
+        type="email"
+        name="email"
+        class="input login_email email"
+        placeholder="youremail@example.com"
+        required
+        autocomplete="username"
+      />
+      <label for="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        class="input login_password password"
+        placeholder="Password"
+        required
+        autocomplete="new-password"
+      />
+      
+      <button type="submit" class="form_btn login_btn button">Login</button>
+      <span
+        ><p>New to Hafiza's Art & Decor?</p>
+        <a href="{% url 'register' %}">Register</a></span
+      >
+    </form>
+  </section>
+  {% endblock content %}

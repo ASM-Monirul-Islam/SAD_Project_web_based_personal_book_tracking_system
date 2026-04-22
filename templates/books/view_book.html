@@ -1,0 +1,41 @@
+{% extends "base/base.html" %}
+{% block content %}
+<div class="section-p0">
+
+  {% include "base/alert.html" %}
+
+<div class="page-wrapper" style="position:relative;">
+  
+  <div class="book-layout">
+    
+    <div class="left-col">
+      <img src="/media/{{book.book_image}}" class="book-cover-placeholder">
+      
+        <form method="POST" action="{% url 'add_to_wishlist' book.slug %}">
+          {% csrf_token %}
+          <button class="want-to-read-main" onclick="this.form.submit()">Add to Wishlist</button>
+        </form>
+      </div>
+
+      <div class="right-col">
+        <h1 class="book-title">{{book.title}}</h1>
+        <div class="book-author"><a href="#">{{book.author}}</a></div>
+
+
+        <p class="blurb">
+          {{book.description}}
+        </p>
+
+        <div class="genres-row">
+          <span class="genres-label">Genres</span>
+          <a class="genre-tag" href="#">{{book.genre}}</a>
+        </div>
+
+        <hr class="divider"/>
+
+      </div>
+
+    </div>
+  </div>
+  </div>
+{% endblock content %}

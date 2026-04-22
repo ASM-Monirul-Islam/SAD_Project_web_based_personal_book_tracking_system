@@ -1,0 +1,6 @@
+{% if messages %} {% for message in messages %}
+<div class="alert_message {% if message.tags %}{{message.tags}}{% endif %}">
+  {{message}}
+  <span class="close_alert" onclick="location.reload();"><i class="fa-solid fa-xmark"></i></span>
+</div>
+{% endfor %} {% endif %}

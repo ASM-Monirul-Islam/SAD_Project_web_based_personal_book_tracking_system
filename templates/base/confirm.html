@@ -1,0 +1,17 @@
+<div id="confirmModal" class="confirm-overlay hidden">
+  <div class="confirm-box">
+    <div class="confirm-icon">⚠️</div>
+
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <p id="confirmMessage">This action cannot be undone.</p>
+
+    <div class="confirm-actions">
+      <button id="cancelBtn" class="cancel-btn">Cancel</button>
+      <button id="confirmBtn" class="confirm-btn">Yes</button>
+    </div>
+  </div>
+</div>
+
+<form id="globalForm" method="POST" style="display: none">
+  {% csrf_token %}
+</form>

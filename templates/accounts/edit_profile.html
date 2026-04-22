@@ -1,0 +1,58 @@
+{% extends "base/base.html" %} {% block content %}
+<section  class="user_auth_parent section-p0" >
+  <form method="post" class="form" enctype="multipart/form-data">
+	{% csrf_token %}
+  {% include "base/alert.html" %}
+    <h3 class="title_msg">Edit your Profile</h3>
+    <label for="fname">First Name</label>
+    <input
+      type="text"
+      name="first_name"
+      class="input"
+      autocomplete="username"
+	  value="{{profile.user.first_name | default:''}}"
+    />
+	<label for="fname">Last Name</label>
+    <input
+      type="text"
+      name="last_name"
+      class="input"
+      autocomplete="username"
+	  value="{{profile.user.last_name | default:''}}"
+    />
+	<label for="username">Phone</label>
+    <input
+      type="number"
+      name="phone"
+      class="input"
+      autocomplete="username"
+	  value="{{profile.phone | default:''}}"
+    />
+	<label for="username">Bio</label>
+    <textarea
+      name="bio"
+      class="input"
+      autocomplete="username">{{profile.bio | default:''}}</textarea>
+	  <label for="username">Interests</label>
+    <textarea
+      name="interests"
+      class="input"
+      autocomplete="username">{{profile.interests | default:''}}</textarea>
+	  <label for="username">Favourite Quotes</label>
+    <textarea
+      name="fav_quotes"
+      class="input"
+      autocomplete="username">{{profile.fav_quotes | default:''}}</textarea>
+	
+	<label for="username">Profile Image</label>
+    <input
+      type="file"
+      name="image"
+      class="input"
+    />
+    
+    <button type="submit" class="form_btn button">Update Profile</button>
+    
+  </form>
+</section>
+{% endblock content %}

@@ -1,0 +1,100 @@
+{% extends "base/base.html" %} {% block content %} {% load static %}
+
+<section id="book_container" class="section-p0">
+  <div class="page-wrapper">
+    <div class="main-content">
+      <div class="search-bar-box" style="margin-top: 1.5rem;">
+        {% include "base/alert.html" %}
+        <div class="search-bar-row">
+          <input id="searchInput" type="text" class="search-input" placeholder="Search book…" value="{{ search_query|default:'' }}" />
+          <button class="search-btn" onclick="runSearch()">Find</button>
+        </div>
+        
+     </div>
+     <div id="api-results" style="margin-top: 1rem;"></div>
+    <div id="api-message" style="margin-top: 0.5rem; font-size: 14px;"></div>
+
+      <div class="tabs">
+        <a class="tab {% if active_status == 'All' %}active{% endif %}" href="?status=All">All</a>
+        <a class="tab {% if active_status == 'Wishlist' %}active{% endif %}" href="?status=Wishlist">Wishlist</a>
+        <a class="tab {% if active_status == 'Reading' %}active{% endif %}" href="?status=Reading">Reading</a>
+        <a class="tab {% if active_status == 'Completed' %}active{% endif %}" href="?status=Completed">Completed</a>
+      </div>
+
+      <div class="genre-line">Genre: <a href="#">All</a></div>
+      <hr class="divider" />
+
+      {% for ub in user_books %}
+      <div class="book-result">
+        {% if active_status != 'All' %}
+        <button class="confirm-action logout"
+        data-url="{% url 'delete_userbook' ub.book.slug %}"
+        data-method="POST"
+        data-title="Delete"
+        data-message="Are you sure you want to Remove it?">
+        <i class="fa-solid fa-xmark cross"></i>
+      </button>
+      {% endif %}
+        <div class="book-cover">
+          <a href="{% if active_status == 'All' %}{% url 'view_book' ub.slug %}{% else %} {% url 'view_book' ub.book.slug %} {% endif %}">
+            <img {% if active_status == 'All' %} src="/media/{{ub.book_image}}" {% else %} src="/media/{{ub.book.book_image}}" {% endif %} width="75" width="110" />
+          </a>
+        </div>
+        <div class="book-details">
+          <a class="book-title" href="{% if active_status == 'All' %}{% url 'view_book' ub.slug %}{% else %} {% url 'view_book' ub.book.slug %} {% endif %}">{% if active_status == 'All' %}{{ub.title}}{% else %}{{ub.book.title}}{% endif %}</a>
+          <div class="book-author">by <a href="#">{% if active_status == 'All' %}{{ub.author}}{% else %}{{ub.book.author}}{% endif %}</a></div>
+
+          <div class="book-buttons">
+            <div class="want-to-read-btn">
+              {% if active_status == 'All' %}
+              <form method="POST" action="{% url 'add_to_wishlist' ub.slug %}">
+                {% csrf_token %}
+                <button class="want-to-read-main" onclick="this.form.submit()">Add to Wishlist</button>
+              </form>
+              {% else %}
+              <form method="post" action="{% url 'change_status' ub.book.slug %}">
+              {% csrf_token %}
+                <select class="custom-select" name="status" onchange="this.form.submit()">
+                {% for value, label in ub.STATUS_CHOICES %}
+                  <option value="{{value}}" {% if ub.status == value %} selected {% endif %}>{{label}}</option>
+                {% endfor %}
+                 </select>
+              </form>
+              {% endif %}
+            </div>
+          </div>
+          {% if active_status != 'All' %}
+          <form method="POST" action="{% url 'rate_book' ub.book.slug %}">
+              {% csrf_token %}
+              <div class="stars">
+                {% for i in "12345" %}
+                  <button type="submit" name="rating" value="{{ i }}" style="background:none;border:none;">
+                  <span class="star {% if ub.rating >= i|add:'0' %}full{% else %}empty{% endif %}">★</span>
+                  </button>
+                  {% endfor %}
+                </div>
+              </form>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-section-title">Shelves</div>
+      <ul class="shelf-list">
+        <li><a href="{% url 'home' %}">All</a></li>
+        {% for genre in genres %}
+        <li>
+          <a href="#"
+              class="{% if active_slug == genre.slug %}active{% endif %}">
+                {{genre.genre}}
+          </a>
+          <span class="count">({{genre.books.count}})</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

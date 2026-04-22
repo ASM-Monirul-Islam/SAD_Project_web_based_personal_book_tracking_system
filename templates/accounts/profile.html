@@ -1,0 +1,30 @@
+{% extends "base/base.html" %} {% block content %} {% load static %}
+
+<section id="profile" class="section-p0">
+  <div class="profile_container">
+    <div class="image_container">
+      {% if profile.image %}
+      <img id="profile_pic" src="/media/{{profile.image}}" />
+      {% else %}
+      <img id="profile_pic" src="{% static 'assets/pp.jpg' %}" />
+      {% endif %}
+    </div>
+    <div class="personal_details form">
+      <label>Name</label>
+      <input class="input" readonly value="{{profile.first_name | default:''}} {{profile.last_name | default:''}}">
+      <label>Phone</label>
+      <input class="input" readonly value="{{profile.phone | default:''}}">
+      <label>Email</label>
+      <input class="input" readonly value="{{profile.user.email | default:''}}">
+      <label>Bio</label>
+      <textarea class="input" readonly>{{profile.bio | default:''}}</textarea>
+      <label>Interests</label>
+      <textarea class="input" readonly>{{profile.interests | default:''}}</textarea>
+      <label>Favourite Quotes</label>
+      <textarea class="input" readonly>{{profile.fav_quotes | default:''}}</textarea>
+      <button class=" btn button" onclick="window.location.href='{% url "edit_profile" %}'">Edit</button>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

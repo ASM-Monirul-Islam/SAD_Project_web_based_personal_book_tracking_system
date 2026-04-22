@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Catching Fire – Goodreads</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f9f7f4;
+      --white: #ffffff;
+      --green: #3b7d6e;
+      --green-dark: #2e6459;
+      --green-light: #e8f2f0;
+      --text-primary: #181818;
+      --text-secondary: #555555;
+      --text-muted: #888888;
+      --star-filled: #e07b39;
+      --star-empty: #d4d0cc;
+      --border: #e0dbd4;
+      --shadow: 0 2px 8px rgba(0,0,0,0.08);
+      --radius: 6px;
+      --font-body: 'Source Sans 3', sans-serif;
+      --font-serif: 'Lora', serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .page-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 36px 24px;
+    }
+
+    .book-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* ── LEFT COLUMN ── */
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .book-cover-placeholder {
+      width: 180px;
+      height: 270px;
+      border-radius: 3px;
+      box-shadow: 4px 6px 20px rgba(0,0,0,0.22);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 16px 12px;
+    }
+    .book-cover-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 2px;
+    }
+    .cover-title {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: white;
+      text-align: center;
+      line-height: 1.2;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+    .cover-author {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .cover-bird {
+      font-size: 2.5rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -65%);
+      opacity: 0.85;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      padding: 11px 0;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-primary .arrow { font-size: 0.7rem; opacity: 0.8; }
+
+    .btn-secondary {
+      width: 100%;
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 0;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+    .btn-secondary .ext-icon { font-size: 0.75rem; }
+
+    .rate-section { text-align: center; }
+    .rate-stars {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+    .rate-stars .star {
+      font-size: 1.3rem;
+      color: var(--star-empty);
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .rate-stars .star:hover { color: var(--star-filled); }
+    .rate-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ── RIGHT COLUMN ── */
+    .right-col { padding-top: 2px; }
+
+    .series-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+
+    .book-title {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+
+    .book-author {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .book-author a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .book-author a:hover { text-decoration: underline; }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .stars-display { display: flex; gap: 3px; }
+    .stars-display .star {
+      font-size: 1.15rem;
+      color: var(--star-filled);
+    }
+    .stars-display .star.half {
+      position: relative;
+      color: var(--star-empty);
+    }
+    .stars-display .star.half::before {
+      content: '★';
+      position: absolute;
+      left: 0; top: 0;
+      width: 50%;
+      overflow: hidden;
+      color: var(--star-filled);
+    }
+    .rating-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .rating-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .rating-dot { color: var(--border); }
+
+    .tagline {
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .blurb {
+      font-size: 0.93rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 6px;
+    }
+
+    .show-more {
+      background: none;
+      border: none;
+      color: var(--green);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 24px;
+    }
+    .show-more:hover { text-decoration: underline; }
+
+    .genres-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .genres-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .genre-tag {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .genre-tag:hover { border-color: var(--green); color: var(--green); }
+    .genre-more {
+      font-size: 0.82rem;
+      color: var(--green);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .genre-more:hover { text-decoration: underline; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 8px 0 20px;
+    }
+
+    .book-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 16px;
+    }
+    .meta-line {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+    .meta-line strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .details-toggle {
+      background: none;
+      border: none;
+      color: var(--green);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .details-toggle:hover { text-decoration: underline; }
+
+    .share-btn {
+      position: absolute;
+      top: 36px;
+      right: 24px;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+    }
+    .share-btn:hover { color: var(--text-primary); }
+
+    @media (max-width: 640px) {
+      .book-layout { grid-template-columns: 1fr; }
+      .left-col { width: 100%; max-width: 240px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper" style="position:relative;">
+    <button class="share-btn" title="Share">⤴</button>
+
+    <div class="book-layout">
+
+      <!-- LEFT -->
+      <div class="left-col">
+          <img src="pp.jpg" class="book-cover-placeholder">
+
+        <button class="btn-primary">
+        </button>
+
+        <div class="rate-section">
+          <div class="rate-stars">
+            <span class="star">☆</span>
+            <span class="star">☆</span>
+            <span class="star">☆</span>
+            <span class="star">☆</span>
+            <span class="star">☆</span>
+          </div>
+          <div class="rate-label">Rate this book</div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <h1 class="book-title">Catching Fire</h1>
+        <div class="book-author"><a href="#">Suzanne Collins</a></div>
+
+        <div class="rating-row">
+          <div class="stars-display">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star half">★</span>
+          </div>
+          <span class="rating-value">4.36</span>
+        </div>
+
+        <p class="blurb">
+          Against all odds, Katniss Everdeen has won the Hunger Games. She and fellow District 12 tribute
+          Peeta Mellark are miraculously still alive. Katniss should be relieved, happy even. After all,
+          she has returned to her family and her longtime friend, Gale. Yet nothing is the way Katniss
+          wishes it to be…
+        </p>
+        <button class="show-more">Show more ▾</button>
+
+        <div class="genres-row">
+          <span class="genres-label">Genres</span>
+          <a class="genre-tag" href="#">Young Adult</a>
+        </div>
+
+        <hr class="divider"/>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Interactive star rating
+    const rateStars = document.querySelectorAll('.rate-stars .star');
+    rateStars.forEach((star, i) => {
+      star.addEventListener('mouseenter', () => {
+        rateStars.forEach((s, j) => s.style.color = j <= i ? '#e07b39' : '#d4d0cc');
+      });
+      star.addEventListener('mouseleave', () => {
+        rateStars.forEach(s => s.style.color = '#d4d0cc');
+      });
+      star.addEventListener('click', () => {
+        rateStars.forEach((s, j) => {
+          s.textContent = j <= i ? '★' : '☆';
+          s.style.color = j <= i ? '#e07b39' : '#d4d0cc';
+        });
+      });
+    });
+
+    // Show more / less toggle
+    const showMoreBtn = document.querySelector('.show-more');
+    const blurb = document.querySelector('.blurb');
+    let expanded = false;
+    showMoreBtn.addEventListener('click', () => {
+      expanded = !expanded;
+      blurb.textContent = expanded
+        ? 'Against all odds, Katniss Everdeen has won the Hunger Games. She and fellow District 12 tribute Peeta Mellark are miraculously still alive. Katniss should be relieved, happy even. After all, she has returned to her family and her longtime friend, Gale. Yet nothing is the way Katniss wishes it to be. President Snow pays her a visit and makes it clear that unless she can convince the world she acted out of love and not defiance, the Capitol will seek its revenge against the people she loves most.'
+        : 'Against all odds, Katniss Everdeen has won the Hunger Games. She and fellow District 12 tribute Peeta Mellark are miraculously still alive. Katniss should be relieved, happy even. After all, she has returned to her family and her longtime friend, Gale. Yet nothing is the way Katniss wishes it to be…';
+      showMoreBtn.textContent = expanded ? 'Show less ▴' : 'Show more ▾';
+    });
+  </script>
+</body>
+</html>
